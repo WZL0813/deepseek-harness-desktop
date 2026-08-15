@@ -47,18 +47,25 @@
   }
   .btn:hover { background:#d8d8d8; }
   .hint { margin-top:10px; font-size:12px; color:#e6e6e6; display:none; }
-  .about-link {
+  .corner-links {
     position: fixed; right: 32px; bottom: 28px; z-index: 10;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+  }
+  .corner-link {
     font-size: 13px; color: #8f8f8f; cursor: pointer;
     text-decoration: underline; text-underline-offset: 3px; user-select: none;
   }
-  .about-link:hover { color: #fff; }
+  .corner-link:hover { color: #fff; }
   .about-box {
-    display: none; position: fixed; right: 32px; bottom: 62px; z-index: 10;
+    display: none; position: fixed; right: 32px; bottom: 86px; z-index: 10;
     background: rgba(24,24,24,.94); border: 1px solid var(--line);
     border-radius: 6px; padding: 14px 16px; min-width: 240px;
   }
   .about-box.show { display: block; }
+  .page-copy {
+    position: fixed; left: 50%; transform: translateX(-50%); bottom: 14px;
+    font-size: 10px; color: #555; z-index: 10; white-space: nowrap;
+  }
   .about-title { font-size:14px; color:var(--ink); font-weight:600; }
   .about-ver { font-size:12px; color:var(--muted); margin-top:4px; font-family:Consolas,monospace; }
   .about-desc { font-size:13px; color:var(--muted); margin-top:8px; }
@@ -107,15 +114,19 @@
       <div class="bar"><div class="bar-fill" id="bar-fill"></div></div>
     </div>
   </div>
-  <div class="about-link" id="about-link">关于</div>
+  <div class="corner-links">
+    <div class="corner-link" id="usage-link">DeepSeek 用量</div>
+    <div class="corner-link" id="about-link">关于</div>
+  </div>
   <div class="about-box" id="about-box">
     <p class="about-title">DeepSeek Harness 桌面壳</p>
     <p class="about-ver">v1.0.1 · Electron 43 · 自包含 exe</p>
     <p class="about-desc">白鲸小窗，开源免费。</p>
-    <button class="btn ghost" id="usage-btn">DeepSeek 用量 ↗</button>
     <button class="btn" id="gh-btn">GitHub 仓库 ↗</button>
-    <p class="about-copy">版权 Ryokuryuneko</p>
+    <p class="about-copy">Make by WZL0813</p>
+    <p class="about-copy">Copyright © Ryokuryuneko. All Rights Reserved.</p>
   </div>
+  <div class="page-copy">Copyright © Ryokuryuneko. All Rights Reserved.</div>
 <script>
   var $ = function (id) { return document.getElementById(id); };
   var editLink = $('edit-link');
@@ -199,7 +210,7 @@
   var aboutLink = $('about-link');
   var aboutBox = $('about-box');
   var ghBtn = $('gh-btn');
-  var usageBtn = $('usage-btn');
+  var usageLink = $('usage-link');
 
   aboutLink.addEventListener('click', function () {
     aboutBox.classList.toggle('show');
@@ -211,7 +222,7 @@
     }
   });
 
-  usageBtn.addEventListener('click', function () {
+  usageLink.addEventListener('click', function () {
     if (window.dsh) {
       window.dsh.openExternal('https://platform.deepseek.com/usage');
     }
