@@ -63,6 +63,7 @@
   .about-ver { font-size:12px; color:var(--muted); margin-top:4px; font-family:Consolas,monospace; }
   .about-desc { font-size:13px; color:var(--muted); margin-top:8px; }
   .about-box .btn { margin-top:12px; }
+  .about-copy { margin-top:12px; font-size:11px; color:#6f6f6f; }
   .install-row { margin-top:20px; }
   .btn.ghost {
     background: transparent; color: #fff; border: 1px solid #555;
@@ -111,7 +112,9 @@
     <p class="about-title">DeepSeek Harness 桌面壳</p>
     <p class="about-ver">v1.0.1 · Electron 43 · 自包含 exe</p>
     <p class="about-desc">白鲸小窗，开源免费。</p>
+    <button class="btn ghost" id="usage-btn">DeepSeek 用量 ↗</button>
     <button class="btn" id="gh-btn">GitHub 仓库 ↗</button>
+    <p class="about-copy">版权 Ryokuryuneko</p>
   </div>
 <script>
   var $ = function (id) { return document.getElementById(id); };
@@ -196,6 +199,7 @@
   var aboutLink = $('about-link');
   var aboutBox = $('about-box');
   var ghBtn = $('gh-btn');
+  var usageBtn = $('usage-btn');
 
   aboutLink.addEventListener('click', function () {
     aboutBox.classList.toggle('show');
@@ -204,6 +208,12 @@
   ghBtn.addEventListener('click', function () {
     if (window.dsh) {
       window.dsh.openExternal('https://github.com/WZL0813/deepseek-harness-desktop');
+    }
+  });
+
+  usageBtn.addEventListener('click', function () {
+    if (window.dsh) {
+      window.dsh.openExternal('https://platform.deepseek.com/usage');
     }
   });
 
