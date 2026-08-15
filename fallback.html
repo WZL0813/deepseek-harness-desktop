@@ -63,6 +63,19 @@
   .about-ver { font-size:12px; color:var(--muted); margin-top:4px; font-family:Consolas,monospace; }
   .about-desc { font-size:13px; color:var(--muted); margin-top:8px; }
   .about-box .btn { margin-top:12px; }
+  .install-row { margin-top:20px; }
+  .btn.ghost {
+    background: transparent; color: #fff; border: 1px solid #555;
+    padding: 8px 16px; font-size: 13px; cursor: pointer; border-radius: 4px; font-weight: 600;
+  }
+  .btn.ghost:hover { background: #fff; color: #0d0d0d; }
+  .btn.ghost:disabled { opacity: .45; cursor: default; }
+  .install-note { margin-top:8px; font-size:12px; color:#6f6f6f; }
+  .install-box { display:none; margin-top:12px; }
+  .install-box.show { display:block; }
+  .install-status { font-size:13px; color:#e6e6e6; margin-bottom:8px; }
+  .bar { height:4px; background:#222; border-radius:2px; overflow:hidden; }
+  .bar-fill { height:100%; width:0%; background:#fff; }
 </style>
 </head>
 <body>
@@ -84,11 +97,19 @@
       <button class="btn" id="connect-btn">连接</button>
     </div>
     <div class="hint" id="hint"></div>
+    <div class="install-row">
+      <button class="btn ghost" id="install-btn">一键安装并启动服务</button>
+    </div>
+    <p class="install-note">没装服务？点这个自动搞定。</p>
+    <div class="install-box" id="install-box">
+      <div class="install-status" id="install-status"></div>
+      <div class="bar"><div class="bar-fill" id="bar-fill"></div></div>
+    </div>
   </div>
   <div class="about-link" id="about-link">关于</div>
   <div class="about-box" id="about-box">
     <p class="about-title">DeepSeek Harness 桌面壳</p>
-    <p class="about-ver">v1.0 · Electron 43 · 自包含 exe</p>
+    <p class="about-ver">v1.0.1 · Electron 43 · 自包含 exe</p>
     <p class="about-desc">白鲸小窗，开源免费。</p>
     <button class="btn" id="gh-btn">GitHub 仓库 ↗</button>
   </div>
@@ -137,6 +158,38 @@
     }).catch(function () {
       hint.style.display = 'block';
       hint.textContent = '地址不对，形如 http://ip:端口';
+    });
+  });
+
+  var installBtn = $('install-btn');
+  var installBox = $('install-box');
+  var installStatus = $('install-status');
+  var barFill = $('bar-fill');
+
+  if (window.dsh && window.dsh.onInstallStatus) {
+    window.dsh.onInstallStatus(function (s) {
+      if (!s) return;
+      installBox.classList.add('show');
+      installStatus.textContent = s.msg || '';
+      if (typeof s.percent === 'number') barFill.style.width = s.percent + '%';
+    });
+  }
+
+  installBtn.addEventListener('click', function () {
+    if (!window.dsh) {
+      installBox.classList.add('show');
+      installStatus.textContent = '此页面不能安装服务';
+      return;
+    }
+    installBtn.disabled = true;
+    installBox.classList.add('show');
+    installStatus.textContent = '准备中…';
+    window.dsh.installHarness().then(function (res) {
+      if (res && !res.ok) {
+        installStatus.textContent = res.msg || '安装失败';
+        installBtn.disabled = false;
+      }
+      // 成功时主进程会直接跳转界面
     });
   });
 

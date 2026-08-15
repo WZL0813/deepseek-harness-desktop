@@ -5,4 +5,8 @@ contextBridge.exposeInMainWorld('dsh', {
   getServerUrl: () => ipcRenderer.invoke('dsh:get-server-url'),
   setServerUrl: (url) => ipcRenderer.invoke('dsh:set-server-url', url),
   openExternal: (url) => ipcRenderer.invoke('dsh:open-external', url),
+  installHarness: () => ipcRenderer.invoke('dsh:install-harness'),
+  onInstallStatus: (cb) => {
+    ipcRenderer.on('dsh:install-status', (_e, data) => cb(data));
+  },
 });
