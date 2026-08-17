@@ -16,11 +16,16 @@
 
 ## 怎么用
 
-1. 双击 exe
-2. 已装服务 → 自动连上
-3. 没装服务 → 点「**一键安装并启动服务**」，全自动搞定
-4. 连远程实例 → 点「自定义连接地址」改 IP
-5. 右下角「关于」→ GitHub 仓库
+两种装法，推荐安装版：
+
+1. **安装版（推荐）**：跑 `DeepSeek-Harness-Setup-*.exe`，装到用户目录，以后秒开（实测 0.6s 出窗口）
+2. **便携版**：单文件 `DeepSeek-Harness.exe`，免安装，但每次启动要解压 ~350MB，慢得多（实测 7.4s）
+
+然后：
+3. 已装服务 → 自动连上
+4. 没装服务 → 点「**一键安装并启动服务**」，全自动搞定
+5. 连远程实例 → 点「自定义连接地址」改 IP
+6. 右下角「DeepSeek 用量 / 关于」→ 用量页 / GitHub 仓库
 
 ### 一键安装要求
 
@@ -35,7 +40,7 @@
 ```bash
 npm install
 npm start        # 本地跑
-npm run dist     # 打包便携版 exe（dist/DeepSeek-Harness.exe）
+npm run dist     # 出两个：安装版（dist/DeepSeek-Harness-Setup-*.exe）+ 便携版（dist/DeepSeek-Harness.exe）
 node_modules/electron/dist/electron.exe make-screenshot.js  # 重新生成 README 截图
 ```
 
